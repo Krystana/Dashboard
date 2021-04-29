@@ -37,7 +37,6 @@ CREATE TABLE customers (
 
 DROP TABLE IF EXISTS employees;
 
-
 CREATE TABLE employees (
     
     employee_id int NOT NULL PRIMARY KEY,
@@ -160,7 +159,6 @@ CREATE TABLE territories (
 
 \copy orders FROM '/Users/krystanafoh/datasets/northwind_data_clean-master/data/territories.csv'  DELIMITER ','  CSV HEADER
 
-
 ---
 
 DROP TABLE IF EXISTS suppliers;
@@ -181,7 +179,6 @@ CREATE TABLE suppliers (
 );
 
 \copy orders FROM '/Users/krystanafoh/datasets/northwind_data_clean-master/data/suppliers.csv'  DELIMITER ','  CSV HEADER
-
 
 ---
 

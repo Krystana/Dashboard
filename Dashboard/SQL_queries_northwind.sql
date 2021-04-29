@@ -16,9 +16,7 @@ SELECT country FROM customers;
 
 SELECT company_name, city, country FROM customers WHERE country LIKE 'Germany';
 
-
 --- 10 order ID's with highest order quantities and their unit prices:
-
 
 SELECT order_id, unit_price, quanitity
 FROM order_details
@@ -29,7 +27,6 @@ LIMIT 10;
 
 SELECT MAX(quanitity)
 FROM order_details;
-
 
 ---  10 order ID's with highest unit prices and their quantities: 
 
@@ -51,7 +48,6 @@ WHERE discount != 0
 ORDER BY discount DESC
 LIMIT 10;
 
-
 --- order id's with delay in shipment:
 
 SELECT order_id, required_date, shipped_date
@@ -63,7 +59,6 @@ WHERE shipped_date > required_date;
 SELECT customer_id, required_date, shipped_date
 FROM orders 
 WHERE shipped_date > required_date;
-
 
 -- Get the names and the quantities in stock for each product:
 
@@ -100,9 +95,10 @@ WHERE unit_price BETWEEN 15 AND 25;
 SELECT product_name, unit_price
 FROM products
 WHERE unit_price > (SELECT AVG(unit_price) FROM products);
---
-SELECT AVG(unit_price) FROM products;
 
+--- average price: 
+
+SELECT AVG(unit_price) FROM products;
 
 --- Get a list of discontinued products (Product ID and name):
 
@@ -140,7 +136,6 @@ INNER JOIN employees ON orders.employee_id = employees.employee_id;
 -- products ordered most often in germany 1997
 
 SELECT  SUM(od.quanitity), p.product_name, cat.category_name
-
 FROM order_details AS od
 JOIN products AS p
 ON od.product_id = p.product_id
@@ -150,9 +145,7 @@ JOIN customers AS c
 ON o.customer_id = c.customer_id
 JOIN categories as cat
 ON p.category_id = cat.category_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'
-
 GROUP BY product_name, category_name
 ORDER BY SUM(quanitity) DESC
 LIMIT 10;
@@ -160,7 +153,6 @@ LIMIT 10;
 ---  orders of 'Rhönberg Klosterbräu' in germany in 1997:  --works 
 
 SELECT  od.quanitity, p.product_name, o.order_date
-
 FROM order_details AS od
 JOIN products AS p
 ON od.product_id = p.product_id
@@ -168,18 +160,14 @@ JOIN orders AS o
 ON od.order_id = o.order_id
 JOIN customers AS c
 ON o.customer_id = c.customer_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'  AND p.product_name = 'Rhönbräu Klosterbier'
-
 GROUP BY p.product_name, od.quanitity, o.order_date
 ORDER BY quanitity ASC;
-
 
 ---  total revenue of 'Rhönberg Klosterbräu'  in germany in 1997: 
 
 SELECT   p.product_name, od.order_id, o.order_date,
 od.quanitity*od.unit_price AS total_revenue
-
 FROM order_details AS od
 JOIN products AS p
 ON od.product_id = p.product_id
@@ -187,13 +175,9 @@ JOIN orders AS o
 ON od.order_id = o.order_id
 JOIN customers AS c
 ON o.customer_id = c.customer_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'  AND p.product_name = 'Rhönbräu Klosterbier'
-
 GROUP BY p.product_name, total_revenue, od.quanitity, od.unit_price, o.order_date,  od.order_id
-
 ORDER BY quanitity ASC;
-
 
 --- orders by employee to germany in 1997:
 
@@ -205,7 +189,6 @@ JOIN order_details AS od
 ON od.order_id = o.order_id
 JOIN customers AS c
 ON c.customer_id = o.customer_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'
 GROUP BY e.last_name
 ORDER BY COUNT(o.order_id) DESC;
@@ -215,7 +198,6 @@ ORDER BY COUNT(o.order_id) DESC;
 CREATE VIEW germany_view_1997 AS
 SELECT   p.product_name, od.order_id, o.order_date,
 od.quanitity*od.unit_price AS total_revenue
-
 FROM order_details AS od
 JOIN products AS p
 ON od.product_id = p.product_id
@@ -223,13 +205,9 @@ JOIN orders AS o
 ON od.order_id = o.order_id
 JOIN customers AS c
 ON o.customer_id = c.customer_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'  AND p.product_name = 'Rhönbräu Klosterbier'
-
 GROUP BY p.product_name, total_revenue, od.quanitity, od.unit_price, o.order_date,  od.order_id
-
 ORDER BY quanitity ASC;
-
 SELECT * FROM germany_view_1997;
 
 --- create view of most often joined tables orders, order_details, products, customers for Germany total revenue 1997: 
@@ -237,7 +215,6 @@ SELECT * FROM germany_view_1997;
 CREATE VIEW germany_view_1997_1 AS
 SELECT   p.product_name, od.order_id, o.order_date,
 od.quanitity*od.unit_price AS total_revenue
-
 FROM order_details AS od
 JOIN products AS p
 ON od.product_id = p.product_id
@@ -245,11 +222,7 @@ JOIN orders AS o
 ON od.order_id = o.order_id
 JOIN customers AS c
 ON o.customer_id = c.customer_id
-
 WHERE c.country = 'Germany' AND o.order_date BETWEEN '01/01/1997' AND  '12/31/1997'   
-
 GROUP BY p.product_name, total_revenue, od.quanitity, od.unit_price, o.order_date,  od.order_id
-
 ORDER BY quanitity ASC;
-
 SELECT * FROM germany_view_1997_1;
